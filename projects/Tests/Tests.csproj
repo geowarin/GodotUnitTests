@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
-
+        <EnableDynamicLoading>true</EnableDynamicLoading>
         <IsPackable>false</IsPackable>
         <GodotUseNETFrameworkRefAssemblies>true</GodotUseNETFrameworkRefAssemblies>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
