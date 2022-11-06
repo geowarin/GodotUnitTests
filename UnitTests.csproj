@@ -2,5 +2,18 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
+    <GodotUseNETFrameworkRefAssemblies>true</GodotUseNETFrameworkRefAssemblies>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="**/*.tscn" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="projects\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="projects\**" />
+  </ItemGroup>
 </Project>
