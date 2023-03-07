@@ -10,10 +10,8 @@ public class Tests
     [Test]
     public void Test1()
     {
-        int i = 0;
-        Console.WriteLine("Testsss");
-        GD.Print("NUnitTest");
+        Console.WriteLine("Tests");
         var main = ResourceLoader.Load<PackedScene>("res://Main.tscn").Instantiate<Main>();
-        Assert.AreEqual("Main", main.Name);
+        Assert.AreEqual("Node3D", main.Name);
     }
 }

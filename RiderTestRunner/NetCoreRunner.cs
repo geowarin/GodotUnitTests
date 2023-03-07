@@ -16,13 +16,11 @@ namespace RiderTestRunner
         private string _runnerAssemblyPath;
         public override void _Ready()
         {
-
             //while (!Debugger.IsAttached)
             {
                 
             }
 
-            
             // GDU.Instance = this; // for GodotXUnit https://github.com/fledware/GodotXUnit/issues/8#issuecomment-929849478
             var textNode = GetNode<RichTextLabel>("RichTextLabel");
             foreach (var arg in OS.GetCmdlineArgs())
@@ -35,7 +33,13 @@ namespace RiderTestRunner
             
             var unitTestArgs = OS.GetCmdlineArgs()[4].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries).ToArray();
             _runnerAssemblyPath = OS.GetCmdlineArgs()[2];
-            AssemblyLoadContext.Default.Resolving += DefaultOnResolving;
+            
+            var runnerLoadContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly());
+            runnerLoadContext?.LoadFromAssemblyPath(_runnerAssemblyPath);
+            
+            runnerLoadContext.Resolving += CurrentDomainOnAssemblyResolve;
+            AssemblyLoadContext.Default.Resolving += CurrentDomainOnAssemblyResolve;
+
             var thread = new Thread(() =>
             {
                 AppDomain.CurrentDomain.ExecuteAssembly(_runnerAssemblyPath, unitTestArgs);
@@ -43,16 +47,29 @@ namespace RiderTestRunner
             });
             thread.Start();
 
-            WaitForThreadExit(thread);
+            // WaitForThreadExit(thread);
         }
 
-        private Assembly DefaultOnResolving(AssemblyLoadContext context, AssemblyName assemblyName)
+        private Assembly CurrentDomainOnAssemblyResolve(AssemblyLoadContext loadContext, AssemblyName assemblyName)
         { 
+            // not sure, if this is needed
+            var alreadyLoadedMatch = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(loadedAssembly =>
+            {
+                var name = loadedAssembly.GetName().Name;
+                return name != null &&
+                       name.Equals(assemblyName.Name);
+            });
+            
+            if (alreadyLoadedMatch != null)
+            {
+                return alreadyLoadedMatch;
+            }
+            
             var dir = new FileInfo(_runnerAssemblyPath).Directory;
             if (dir == null) return null;
             var file = new FileInfo(Path.Combine(dir.FullName, $"{assemblyName.Name}.dll"));
             if (file.Exists) 
-                return AssemblyLoadContext.Default.LoadFromAssemblyPath(file.FullName);
+                return loadContext.LoadFromAssemblyPath(file.FullName);
             return null;
         }
 
