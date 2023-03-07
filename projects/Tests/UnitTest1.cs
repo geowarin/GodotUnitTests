@@ -12,6 +12,6 @@ public class Tests
     {
         Console.WriteLine("Tests");
         var main = ResourceLoader.Load<PackedScene>("res://Main.tscn").Instantiate<Main>();
-        Assert.AreEqual("Node3D", main.Name);
+        Assert.AreEqual(new StringName("Node3D"), main.Name);
     }
 }
