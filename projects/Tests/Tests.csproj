@@ -5,13 +5,12 @@
         <Nullable>enable</Nullable>
         <EnableDynamicLoading>true</EnableDynamicLoading>
         <IsPackable>false</IsPackable>
-        <GodotUseNETFrameworkRefAssemblies>true</GodotUseNETFrameworkRefAssemblies>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <OutputPath>../../.mono/tests/bin/$(Configuration)</OutputPath>
-    </PropertyGroup>
+<!--    <PropertyGroup>-->
+<!--        <OutputPath>../../.mono/tests/bin/$(Configuration)</OutputPath>-->
+<!--    </PropertyGroup>-->
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
@@ -19,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\UnitTests.csproj" />
+        <ProjectReference Include="..\Game\Game.csproj" />
     </ItemGroup>
 
     <ItemGroup>

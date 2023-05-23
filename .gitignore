@@ -1,3 +1,4 @@
 # Godot 4+ specific ignores
 .godot/
 .mono/
+Game.sln.DotSettings.user
