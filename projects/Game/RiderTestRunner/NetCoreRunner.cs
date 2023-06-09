@@ -72,13 +72,5 @@ namespace RiderTestRunner
                 return loadContext.LoadFromAssemblyPath(file.FullName);
             return null;
         }
-
-        private async void WaitForThreadExit(Thread thread)
-        {
-            while (thread.IsAlive)
-            {
-                await ToSignal(GetTree().CreateTimer(100), "timeout");
-            }
-        }
     }
 }
